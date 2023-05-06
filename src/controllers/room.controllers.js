@@ -1,7 +1,5 @@
 import room from '../models/room.models.js';
-import { Authorization } from '../utils/authorizaiton.js';
 export function listAllRoom(req, res) {
-    if (Authorization(req, res)) return;
     room.find({}, (err, users) => {
         if (err) {
             console.log(err);
@@ -12,7 +10,6 @@ export function listAllRoom(req, res) {
     });
 }
 export function insertFromJson(req, res) {
-    if (Authorization(req, res)) return;
     const data = req.body;
     const room_insert = []
     room.find({}, (err, rooms) => {
@@ -45,7 +42,6 @@ export function insertData(models, data, check_exist) {
     };
 }
 export function insertRoom(req, res) {
-    if (Authorization(req, res)) return;
     var data = req.body;
     room.find({}, (err, rooms) => {
         if (rooms.some(e => e.name === data.name)) {
@@ -63,7 +59,6 @@ export function insertRoom(req, res) {
 }
 
 export function deleteRoom(req, res) {
-    if (Authorization(req, res)) return;
     var id = req.params.id;
     room.findByIdAndRemove(id, function (err, result) {
         if (err) {
@@ -75,7 +70,6 @@ export function deleteRoom(req, res) {
     });
 }
 export function updateRoom(req, res) {
-    if (Authorization(req, res)) return;
     var data = req.body;
     var id = req.params.id;
     room.findByIdAndUpdate(id, { $set: data }, function (err, result) {

@@ -1,5 +1,4 @@
 import term from '../models/term.models.js';
-import { Authorization } from '../utils/authorizaiton.js';
 export function listAllTerm(req, res) {
     term.find({}, (err, room_booking) => {
         if (err) {
@@ -11,7 +10,6 @@ export function listAllTerm(req, res) {
     });
 }
 export function insertFromJson(req, res) {
-    if (Authorization(req, res)) return;
     const data = req.body;
     const room_insert = []
     term.find({}, (err, terms) => {
@@ -30,7 +28,6 @@ export function insertFromJson(req, res) {
 }
 
 export function insertTerm(req, res) {
-    if (Authorization(req, res)) return;
     var data = req.body;
     term.find({}, (err, terms) => {
         if (terms.some(e => e.startDate === data.startDate)) {
@@ -48,7 +45,6 @@ export function insertTerm(req, res) {
 }
 
 export function deteleTerm(req, res) {
-    if (Authorization(req, res)) return;
     var id = req.params.id;
     term.findByIdAndRemove(id, function (err, result) {
         if (err) {
@@ -60,7 +56,6 @@ export function deteleTerm(req, res) {
     });
 }
 export function updateTerm(req, res) {
-    if (Authorization(req, res)) return;
     var data = req.body;
     var id = req.params.id;
     term.findByIdAndUpdate(id, { $set: data }, function (err, result) {

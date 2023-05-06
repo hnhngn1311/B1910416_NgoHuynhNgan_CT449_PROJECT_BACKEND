@@ -19,3 +19,23 @@ export const signIn = (req, res) => {
         })
     }
 }
+export function insertFromJson(req, res) {
+    const data_insert = [];
+    const data = req.body;
+    accountModels.find({}, (err, account) => {
+        for (let i = 0; i < data.length; i++) {
+            const element = data[i];
+            if (account.some(e => e.username === element.username)) {
+                console.log(element.username + " đã tồn tại")
+            } else {
+                data_insert.push(element)
+            }
+        }
+        accountModels.insertMany(data_insert)
+            .then(() => res.sendStatus(201))
+            .catch(err => {
+                console.log(err);
+                res.sendStatus(500);
+            })
+    });
+}
